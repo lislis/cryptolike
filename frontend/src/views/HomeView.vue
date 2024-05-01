@@ -2,27 +2,6 @@
  import { useWalletStore } from '@/stores/wallet';
 
  export default {
-     inject: ['socketServer', 'apiEndpoint', 'socket'],
-     mounted() {
-         //this.socket =  new WebSocket(this.socketServer);
-         console.log(this.socket)
-
-         this.socket.onopen = (e) => {
-             let s = {subject: 'hello', id: "random4"};
-             this.socket.send(JSON.stringify(s));
-             fetch(`${this.apiEndpoint}/wallets`, { method: 'POST' })
-                 .then(d => d.json())
-                 .then(d => {
-                     console.log(d);
-                     return this.store.setMe(d);
-                 });
-         }
-
-         this.socket.onmessage = (e) => {
-             let data = JSON.parse(e.data);
-             console.log(data);
-         }
-     },
      setup() {
          const store = useWalletStore();
          return { store };
@@ -30,6 +9,14 @@
      computed: {
          me() {
              return this.store.getMe;
+         },
+         coins() {
+             return this.store.getCoins;
+         },
+     },
+     methods: {
+         coinName(coin) {
+             return `${coin.name.split('').splice(0,2).join('')}TC`;
          }
      }
  }
@@ -45,6 +32,15 @@
             <section>
                 <h2>These cryptocurrencies are available</h2>
                 <p>Pick one to trade or mine.</p>
+                <ul class="coins-list">
+                    <li v-for="coin in coins">
+                        <router-link :to="{name: 'coinSingle', params: { name: coin.name}}">
+                            <h3>{{coin.name}}</h3>
+                            <div>{{coinName(coin)}}/Euro: {{coin.exchange_rate}}</div>
+                            <div>Coins mined: {{coin.amount}}</div>
+                        </router-link>
+                    </li>
+                </ul>
             </section>
         </section>
     </main>

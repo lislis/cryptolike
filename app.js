@@ -3,9 +3,9 @@ require('dotenv').config();
 var cors = require('cors');
 var createError = require('http-errors');
 var express = require('express');
-const ws = require('ws');
+var ws = require('ws');
 var path = require('path');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -26,11 +26,7 @@ app.use(cors());
 const mongoose = require('mongoose');
 //mongoose.Promise = require('bluebird');
 console.log(`[mongodb] mongodb://${MONGO_HOST}/${MONGO_DB}`);
-mongoose.connect(`mongodb://${MONGO_HOST}/${MONGO_DB}`, {
-  //promiseLibrary: require('bluebird'),
-  //useNewUrlParser: true,
-  //useUnifiedTopology: true
-})
+mongoose.connect(`mongodb://${MONGO_HOST}/${MONGO_DB}`)
   .then(() =>  console.log('[mongodb] connection successful'))
   .catch((err) => console.log(err));
 
@@ -41,8 +37,10 @@ app.ws.on('connection', socket => {
 
 
 const wallet = require('./routes/wallet');
+const coin = require('./routes/coin');
 
 app.use('/api/wallets', wallet);
+app.use('/api/coins', coin);
 
 
 //app.state = {};
