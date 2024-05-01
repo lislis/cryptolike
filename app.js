@@ -3,24 +3,34 @@ require('dotenv').config();
 var cors = require('cors');
 var createError = require('http-errors');
 var express = require('express');
-var ws = require('ws');
 var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 
 const MONGO_DB = process.env['MONGO_DB'];
 const MONGO_HOST = process.env['MONGO_HOST'];
 
 var app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json({ limit: '1mb'}));
 app.use(bodyParser.urlencoded({'extended':'false'}));
+app.use(bodyParser.json({ limit: '1mb'}));
+
 app.use(cookieParser());
-app.use(cors());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 //app.use(express.static(path.join(__dirname, 'public')));
 
 const mongoose = require('mongoose');
@@ -30,63 +40,13 @@ mongoose.connect(`mongodb://${MONGO_HOST}/${MONGO_DB}`)
   .then(() =>  console.log('[mongodb] connection successful'))
   .catch((err) => console.log(err));
 
-app.ws = new ws.Server({ noServer: true, clientTracking: true });
-app.ws.on('connection', socket => {
-  socket.on('message', message => console.log(message));
-});
-
-
 const wallet = require('./routes/wallet');
 const coin = require('./routes/coin');
+const transaction = require('./routes/transaction');
 
 app.use('/api/wallets', wallet);
 app.use('/api/coins', coin);
-
-
-//app.state = {};
-
-
-function heartbeat() {
-  this.isAlive = true;
-}
-
-const interval = setInterval(function ping() {
-  app.ws.clients.forEach(function each(ws) {
-    if (ws.isAlive === false) return ws.terminate();
-
-    ws.isAlive = false;
-    ws.ping();
-  });
-}, 30000);
-
-
-app.ws.on('close', function close() {
-  clearInterval(interval);
-});
-
-app.ws.on("connection", (ws, req) => {
-  console.log(`[ws][opened] ${ws}`);
-  ws.isAlive = true;
-  ws.on('pong', heartbeat);
-
-  const ip = req.socket.remoteAddress;
-
-  ws.on('message', (data) => {
-    //logger(`[ws][incoming] ${data}`);
-    let msg = '' + data; // data is a buffer
-    console.log(msg);
-  });
-
-  ws.on('disconnect', (ws) => {
-    console.log(`[ws][disconnect] ${ws}`);
-  });
-
-
-
-});
-
-//app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+app.use('/api/transactions', transaction);
 
 app.use(express.static('frontend/dist'));
 

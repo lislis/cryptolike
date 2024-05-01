@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CoinView from '../views/CoinView.vue';
+import MiningView from '../views/MiningView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/coin/:name',
       name: 'coinSingle',
       component: CoinView
+    },
+    {
+      path: '/mining/:name',
+      name: 'mining',
+      component: MiningView
     },
     {
       path: '/about',

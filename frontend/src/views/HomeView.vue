@@ -39,6 +39,8 @@
                             <div>{{coinName(coin)}}/Euro: {{coin.exchange_rate}}</div>
                             <div>Coins mined: {{coin.amount}}</div>
                         </router-link>
+
+                        <router-link class="btn" :to="{ name: 'mining', params: { name: coin.name }}">Mine this coin!</router-link>
                     </li>
                 </ul>
             </section>
