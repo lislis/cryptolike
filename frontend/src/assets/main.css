@@ -1,35 +1,41 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+  padding: 1em;
 }
 
-a,
-.green {
+a {
+  color: hotpink;
+}
+
+.btn {
+  display: inline-block;
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  background-color: hotpink;
+  padding: 0.3em;
+  border-radius: 2px;
+  color: #111;
+}
+.btn:hover,
+.btn:active {
+  opacity: 0.7;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.mt-1 {
+  margin-top: 2em;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.coins-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.coins-list li {
+  flex: 1 0 15em;
+  margin: 0 1em 1em;
+  padding: 1em;
+  border-radius: 2px;
+  background-color: #333;
 }

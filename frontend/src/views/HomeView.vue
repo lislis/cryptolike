@@ -20,6 +20,9 @@
          },
          coinMined(coin) {
              return this.store.getTransactionsByCoin(coin.name);
+         },
+         myCoinTransactions(coin) {
+             return this.store.getMineFromCoin(coin.name);
          }
      }
  }
@@ -37,13 +40,12 @@
                 <p>Pick one to trade or mine.</p>
                 <ul class="coins-list">
                     <li v-for="coin in coins">
-                        <router-link :to="{name: 'coinSingle', params: { name: coin.name}}">
-                            <h3>{{coin.name}}</h3>
-                            <div>{{coinName(coin)}}/Euro: {{coin.exchange_rate}}</div>
-                            <div>Coins mined: {{coinMined(coin).length}}</div>
-                        </router-link>
+                        <h3><router-link :to="{name: 'coinSingle', params: { name: coin.name}}">{{coin.name}}</router-link></h3>
+                        <div>{{coinName(coin)}}/Euro: {{coin.exchange_rate}}</div>
+                        <div>There are {{coinMined(coin).length}} in circulation.</div>
+                        <div>Out of those, you own {{myCoinTransactions(coin).length}}.</div>
 
-                        <router-link class="btn" :to="{ name: 'mining', params: { name: coin.name }}">Mine this coin!</router-link>
+                        <router-link class="btn mt-1" :to="{ name: 'mining', params: { name: coin.name }}">Mine this coin!</router-link>
                     </li>
                 </ul>
             </section>
