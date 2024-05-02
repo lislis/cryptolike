@@ -1,5 +1,8 @@
 <script>
  import { useWalletStore } from '@/stores/wallet';
+ //import { computed, watch } from 'vue';
+ //import { useRoute } from "vue-router";
+ //import { storeToRefs } from 'pinia'
 
  export default {
      inject: ['apiEndpoint'],
@@ -31,8 +34,16 @@
          },
          myWallet() {
              return this.store.getMe;
+         },
+         transactions() {
+             return this.store.transactions;
+         },
+         coinTransactions() {
+             return this.store.getTransactionsByCoin(this.$route.params.name);
+         },
+         myCoinTransactions() {
+             return this.store.getMineFromCoin(this.$route.params.name);
          }
-
      },
      methods: {
          resetNum() {
@@ -65,7 +76,8 @@
              }
          },
          hasEarnedCoin() {
-             if (this.miningWorkProgress === this.numMiningWork) {
+             console.log(this.miningProgress, this.miningWork);
+             if (this.miningProgress === this.miningWork) {
                  this.createCoin();
                  this.resetNum();
                  this.resetWork();
@@ -78,7 +90,7 @@
                  to: this.myWallet._id,
                  mined: true,
              });
-             console.log(body)
+             //console.log(body)
              let result = await fetch(`${this.apiEndpoint}/transactions/`, {
                  method: "POST",
                  headers: {
@@ -88,10 +100,9 @@
                  referrerPolicy: "no-referrer",
                  body }
              ).then(d => d.json());
-             console.log(result);
+             //console.log(result);
          }
-
-     }
+     },
  }
 </script>
 
@@ -102,7 +113,8 @@
         <section>
             <header v-if="coin">
                 <h1>Mining {{coin.name}}</h1>
-                <div>You have {{}} in this coin.</div>
+                <div>{{ coinTransactions.length }} have been mined.</div>
+                <div>You have {{myCoinTransactions.length}} in this coin.</div>
                 <div>
                     <h2>Mining Progress</h2>
                     <div>Work to prove unitl next coin: {{ miningProgress }} / {{ miningWork}}</div>

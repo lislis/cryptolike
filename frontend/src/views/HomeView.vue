@@ -12,11 +12,14 @@
          },
          coins() {
              return this.store.getCoins;
-         },
+         }
      },
      methods: {
          coinName(coin) {
              return `${coin.name.split('').splice(0,2).join('')}TC`;
+         },
+         coinMined(coin) {
+             return this.store.getTransactionsByCoin(coin.name);
          }
      }
  }
@@ -37,7 +40,7 @@
                         <router-link :to="{name: 'coinSingle', params: { name: coin.name}}">
                             <h3>{{coin.name}}</h3>
                             <div>{{coinName(coin)}}/Euro: {{coin.exchange_rate}}</div>
-                            <div>Coins mined: {{coin.amount}}</div>
+                            <div>Coins mined: {{coinMined(coin).length}}</div>
                         </router-link>
 
                         <router-link class="btn" :to="{ name: 'mining', params: { name: coin.name }}">Mine this coin!</router-link>

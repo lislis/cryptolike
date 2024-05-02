@@ -11,6 +11,9 @@
          coin() {
              return this.store.getCoin(this.$route.params.name);
          },
+         coinMined() {
+             return this.store.getTransactionsByCoin(this.$route.params.name);
+         }
      },
      methods: {
          coinName(coin) {
@@ -32,7 +35,7 @@
             <header v-if="coin">
                 <h1>{{coin.name}}</h1>
                 <div>{{coinName(coin)}}/Euro: {{coin.exchange_rate}}</div>
-                <div>Coins mined: {{coin.amount}}</div>
+                <div>Coins mined: {{coinMined.length}}</div>
             </header>
             <section>
 

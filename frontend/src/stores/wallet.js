@@ -6,10 +6,9 @@ export const useWalletStore = defineStore('everything', {
         me: {},
         wallets: [],
         coins: [],
-        numMiningWork: 1,
-        mining: {
-
-        }
+        transactions: [],
+        numMiningWork: 2,
+        mining: {},
     }),
     getters: {
         getMe(state) {
@@ -32,6 +31,21 @@ export const useWalletStore = defineStore('everything', {
         },
         getNumMiningWork: (state) => {
             return state.numMiningWork;
+        },
+        getTransactionsByCoin: (state) => {
+            return (coinname) =>  {
+                let coin = state.coins.find(x => x.name === coinname);
+                return state.transactions.filter(x => x.coin == coin._id && x.mined == true);
+            }
+        },
+        getMineFromCoin: (state) => {
+            return (coinname) => {
+                let coin = state.coins.find(x => x.name === coinname);
+                return state.transactions
+                            .filter(x => x.mined == true)
+                            .filter(x => x.coin == coin._id)
+                            .filter(x => x.to == state.me._id);
+            }
         }
     },
     actions: {
@@ -47,9 +61,18 @@ export const useWalletStore = defineStore('everything', {
                 .then(d => d.json())
                 .then(d => this.coins = d);
         },
+        fetchTransactions() {
+            let apiEndpoint = inject('apiEndpoint');
+            fetch(`${apiEndpoint}/transactions`)
+                .then(d => d.json())
+                .then(d => this.transactions = d);
+        },
         setMiningProcess(name, progress) {
-           console.log(this.mining, name, progress)
+           //console.log(this.mining, name, progress)
             this.mining[name].progress = progress;
+        },
+        addTransaction(t) {
+            this.transactions.push(t);
         }
     }
 });

@@ -26,15 +26,17 @@
          })
 
          this.socket.on('new-transaction', (evt) => {
-             console.log(evt)
+             this.store.addTransaction(evt.message);
          })
          this.socket.on('new-wallet', (evt) => {
              console.log(evt)
+
          })
      },
      setup() {
          const store = useWalletStore();
          store.fetchCoins();
+         store.fetchTransactions();
          return { store };
      },
 
