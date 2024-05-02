@@ -46,14 +46,14 @@ export const useWalletStore = defineStore('everything', {
                             .filter(x => x.coin == coin._id)
                             .filter(x => x.to == state.me._id);
             }
+        },
+        getOnlineWallets: (state) => {
+            return
         }
     },
     actions: {
         setMe(newWallet) {
             this.me = newWallet;
-        },
-        addWallet(newWallet) {
-            this.wallets.push(newWallet);
         },
         fetchCoins() {
             let apiEndpoint = inject('apiEndpoint');
@@ -79,6 +79,16 @@ export const useWalletStore = defineStore('everything', {
         },
         addTransaction(t) {
             this.transactions.push(t);
+        },
+        addWallet(wallet) {
+            this.players.push(wallet);
+        },
+        updateWallet(walletid) {
+            let index = this.players.findIndex(x => x._id === walletid);
+            let p = this.players[index];
+            p.offline = true;
+            this.players.splice(index, 1, p);
+            console.log(this.players[index])
         }
     }
 });

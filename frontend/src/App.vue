@@ -26,7 +26,13 @@
                  this.store.addTransaction(evt.message);
              });
              this.socket.on('new-wallet', (evt) => {
-                 console.log(evt)
+            //     console.log(evt)
+                 this.store.addWallet(evt.message);
+             });
+             this.socket.on('update-wallet', (evt) => {
+                 //     console.log(evt)
+                 console.log("update wallet ples")
+                 this.store.updateWallet(evt.message);
              });
          });
      },

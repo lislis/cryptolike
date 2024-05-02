@@ -45,6 +45,7 @@ app.ws.on('connection', async (socket) => {
   socket.on('disconnect', async (ws) => {
     console.log(`[ws][disconnect] ${ws} ${socket.id}`);
     let dw = await Wallet.findOneAndUpdate({socket: socket.id}, { offline: true });
+    app.ws.emit('update-wallet', { message: dw._id });
   });
 });
 

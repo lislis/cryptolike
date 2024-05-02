@@ -39,3 +39,25 @@ a {
   border-radius: 2px;
   background-color: #333;
 }
+
+.status {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  vertical-align: middle;
+  margin-right: 0.3em;
+  border-radius: 50%;
+  background-color: lime;
+}
+.status.offline {
+  background-color: crimson;
+}
+
+.bubble {
+  display: inline-block;
+  font-size: 0.8em;
+  margin-left: 0.3em;
+  padding: 0.1em 0.3em;
+  border-radius: 5px;
+  background-color: #666;
+}
