@@ -29,7 +29,7 @@
 </script>
 <template>
     <section class="wallet-panel">
-        <header>Wallets</header>
+        <header><h2>The others</h2></header>
         <main>
             <ul>
                 <SingleWallet  v-for="client in online" :wallet="client"/>
@@ -37,7 +37,9 @@
             <ul v-if="showOffline">
                 <SingleWallet  v-for="client in offline" :wallet="client"/>
             </ul>
-            <button v-if="offline.length > 0" @click="showOffline = !showOffline">show offline</button>
+            <button v-if="offline.length > 0"
+                    @click="showOffline = !showOffline"
+            class="mt-1">show offline</button>
         </main>
     </section>
 </template>

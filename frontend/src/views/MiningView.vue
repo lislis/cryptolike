@@ -1,8 +1,5 @@
 <script>
  import { useWalletStore } from '@/stores/wallet';
- //import { computed, watch } from 'vue';
- //import { useRoute } from "vue-router";
- //import { storeToRefs } from 'pinia'
 
  export default {
      inject: ['apiEndpoint'],
@@ -109,10 +106,8 @@
 <template>
     <main>
         <section>
-            <router-link to="/">Back</router-link></section>
-        <section>
             <header v-if="coin">
-                <h1>Mining {{coin.name}}</h1>
+                <h1>Mining <router-link :to="{name: 'coinSingle', params: { name: coin.name}}">{{coin.name}}</router-link></h1>
                 <div>{{ coinTransactions.length }} have been mined.</div>
                 <div>You have {{myCoinTransactions.length}} in this coin.</div>
                 <div>

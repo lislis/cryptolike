@@ -30,7 +30,6 @@
 
 <template>
     <main>
-        <section><router-link to="/">Back</router-link></section>
         <section>
             <header v-if="coin">
                 <h1>{{coin.name}}</h1>

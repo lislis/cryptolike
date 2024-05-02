@@ -1,9 +1,5 @@
 @import './base.css';
 
-#app {
-  padding: 1em;
-}
-
 a {
   color: hotpink;
 }
@@ -60,4 +56,38 @@ a {
   padding: 0.1em 0.3em;
   border-radius: 5px;
   background-color: #666;
+}
+
+.main-header {
+  background-color: #222;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+}
+.main-footer {
+  padding: 1em;
+  border-top: 0.6em solid #333;
+  background-color: #222;
+}
+
+.header-user {
+  display: flex;
+}
+
+.panel-toggle {
+  margin-left: 1em;
+}
+
+.wallet-panel {
+  position: absolute;
+  top: 3em;
+  bottom: 0;
+  width: 17em;
+  background-color: #222;
+  right: 0;
+  padding: 1em;
+}
+
+.wrapper {
+  padding: 1em;
 }

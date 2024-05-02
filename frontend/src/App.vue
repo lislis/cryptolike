@@ -1,10 +1,11 @@
 <script>
  import { RouterLink, RouterView } from 'vue-router'
  import { useWalletStore } from '@/stores/wallet';
- import WalletPanel from '@/components/WalletPanel.vue';
+
+ import MainHead from '@/components/MainHead.vue';
 
  export default {
-     components: { WalletPanel },
+     components: { MainHead },
      inject: ['socketServer', 'apiEndpoint', 'socket'],
      mounted() {
          this.socket.on('connect', (e) => {
@@ -49,9 +50,11 @@
 </script>
 
 <template>
-    <WalletPanel />
-    <RouterView />
-    <footer>
+    <MainHead />
+    <div class="wrapper">
+        <RouterView />
+    </div>
+    <footer class="main-footer">
         <p>📈🔭 cryptolike - a cryptocurrency trading simulation brought to you by STERNA | PAU</p>
     </footer>
 </template>
