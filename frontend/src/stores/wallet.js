@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useWalletStore = defineStore('everything', {
     state: () => ({
         me: {},
-        wallets: [],
+        players: [],
         coins: [],
         transactions: [],
         numMiningWork: 2,
@@ -66,6 +66,12 @@ export const useWalletStore = defineStore('everything', {
             fetch(`${apiEndpoint}/transactions`)
                 .then(d => d.json())
                 .then(d => this.transactions = d);
+        },
+        fetchWallets() {
+            let apiEndpoint = inject('apiEndpoint');
+            fetch(`${apiEndpoint}/wallets`)
+                .then(d => d.json())
+                .then(d => this.players = d);
         },
         setMiningProcess(name, progress) {
            //console.log(this.mining, name, progress)

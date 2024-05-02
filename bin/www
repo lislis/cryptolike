@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('cryptolike:server');
 var http = require('http');
 
+const Wallet = require('../models/wallet.js');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -32,17 +34,17 @@ const ws = require('socket.io')(server, {
     origin: "*"
   }
 });
-app.ws = ws;
 
-app.ws.on('connection', socket => {
+app.ws = ws;
+app.ws.on('connection', async (socket) => {
+
   socket.on('message', (data) => {
-    //logger(`[ws][incoming] ${data}`);
     let msg = '' + data; // data is a buffer
-    console.log(msg);
   });
 
-  socket.on('disconnect', (ws) => {
-    console.log(`[ws][disconnect] ${ws}`);
+  socket.on('disconnect', async (ws) => {
+    console.log(`[ws][disconnect] ${ws} ${socket.id}`);
+    let dw = await Wallet.findOneAndUpdate({socket: socket.id}, { offline: true });
   });
 });
 
