@@ -17,8 +17,10 @@
 
 <template>
     <li>
-        <span class="status" :class="{ 'offline': wallet.offline }"></span>
-        <strong>{{wallet.name}}</strong>
-        <span v-if="isMe" class="bubble">it you</span>
+        <div>
+            <span class="status" :class="{ 'offline': wallet.offline }"></span>
+            <strong>{{wallet.name}}</strong>
+            <span v-if="isMe" class="bubble">it you</span>
+        </div>
     </li>
 </template>

@@ -39,6 +39,13 @@
             <section>
                 <router-link class="btn" :to="{ name: 'mining', params: { name: coin.name }}">Mine this coin!</router-link>
             </section>
+            <section>
+                <div>
+                    <button>Buy coins</button>
+                    <button>Sell coins</button>
+                    <button>Exchange with other players</button>
+                </div>
+            </section>
         </section>
     </main>
 </template>
